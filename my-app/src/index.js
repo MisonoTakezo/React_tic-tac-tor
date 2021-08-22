@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import calculateWinner from "./utils/calcWin.js";
 
 const Square = ({ value, onClick }) => {
 
@@ -16,6 +17,10 @@ const Board = () => {
   const [xIsNext, setXIsNext] = useState(true);
 
   const handleClick = (i) => {
+
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
     squares[i] = xIsNext ? "X" : "O";
     setSquares(squares);
     setXIsNext(!xIsNext);
@@ -24,7 +29,15 @@ const Board = () => {
   const renderSquare = (i) => {
     return <Square value={squares[i]} onClick={() => handleClick(i)} />;
   };
-  const status = "Next player: X";
+
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = "Winner:" + winner;
+  } else {
+    status = "Next player:" + (xIsNext ? "X" : "O");
+  }
+
   return (
     <div>
       <div className="status">{status}</div>
