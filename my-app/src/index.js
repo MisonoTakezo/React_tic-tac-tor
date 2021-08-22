@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-/* ------------------------------
-Square
------------------------------- */
-const Square = () => {
-  return <button className="square">{/* TODO */}</button>;
-};
+const Square = ({ value, onClick }) => {
 
-/* ------------------------------
-Board
------------------------------- */
+  return (
+    <button className="square" onClick={() => onClick()}>
+      {value}
+    </button>
+  );
+}
+
 const Board = () => {
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
+
+  const handleClick = (i) => {
+    squares[i] = xIsNext ? "X" : "O";
+    setSquares(squares);
+    setXIsNext(!xIsNext);
+  }
+
   const renderSquare = (i) => {
-    return <Square />;
+    return <Square value={squares[i]} onClick={() => handleClick(i)} />;
   };
   const status = "Next player: X";
   return (
@@ -39,9 +47,6 @@ const Board = () => {
   );
 };
 
-/* ------------------------------
-Game
------------------------------- */
 const Game = () => {
   return (
     <div className="game">
