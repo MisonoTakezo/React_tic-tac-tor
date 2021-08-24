@@ -8,11 +8,13 @@ const Board = () => {
 
   const handleClick = (i) => {
 
-    if (calculateWinner(squares) || squares[i]) {
+    const _squares = squares.slice();
+
+    if (calculateWinner(_squares) || _squares[i]) {
       return;
     }
-    squares[i] = xIsNext ? "X" : "O";
-    setSquares(squares);
+    _squares[i] = xIsNext ? "X" : "O";
+    setSquares(_squares);
     setXIsNext(!xIsNext);
   }
 
